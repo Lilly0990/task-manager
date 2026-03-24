@@ -55,27 +55,29 @@ function EmailGate({ token, allowedEmails, children }: {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-gray-50">
-      <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm w-full max-w-sm text-center">
-        <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg className="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-          </svg>
+    <div className="min-h-screen flex items-center justify-center px-4 bg-[#090909]">
+      <div className="w-full max-w-sm">
+        <div className="mb-8">
+          <div className="w-8 h-8 rounded-lg bg-[#1A1A2E] border border-[#2A2A4A] flex items-center justify-center mb-6">
+            <svg className="w-4 h-4 text-[#6366F1]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </div>
+          <h1 className="text-2xl font-semibold text-white tracking-tight">Доступ обмежено</h1>
+          <p className="text-[#555] text-sm mt-1.5">Введіть ваш email щоб увійти</p>
         </div>
-        <h1 className="text-lg font-bold text-gray-800 mb-1">Доступ обмежено</h1>
-        <p className="text-sm text-gray-500 mb-6">Введіть ваш email щоб увійти</p>
         <form onSubmit={handleSubmit} className="space-y-3">
           <input
             type="email"
             value={input}
             onChange={e => { setInput(e.target.value); setError('') }}
             placeholder="your@email.com"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-[#111] border border-[#222] text-white placeholder-[#444] rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#6366F1] transition-colors"
             autoFocus
           />
-          {error && <p className="text-red-500 text-sm">{error}</p>}
+          {error && <p className="text-[#EF4444] text-sm">{error}</p>}
           <button type="submit" disabled={!input.trim()}
-            className="w-full bg-blue-600 text-white py-2.5 rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors">
+            className="w-full bg-[#6366F1] hover:bg-[#818CF8] disabled:opacity-40 text-white py-3 rounded-xl text-sm font-medium transition-colors">
             Увійти
           </button>
         </form>
@@ -104,8 +106,8 @@ function FilesDisplay({ files }: { files: string[] }) {
         const name = decodeURIComponent(url.split('/').pop()?.split('?')[0] ?? 'file')
         return (
           <a key={i} href={url} target="_blank" rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-xs text-blue-600 bg-blue-50 hover:bg-blue-100 px-2.5 py-1.5 rounded-lg border border-blue-200 transition-colors max-w-xs">
-            <span>📎</span>
+            className="flex items-center gap-1.5 text-xs text-[#888] bg-[#161616] hover:bg-[#1E1E1E] px-2.5 py-1.5 rounded-lg border border-[#222] hover:border-[#333] transition-colors max-w-xs">
+            <span className="opacity-60">⬡</span>
             <span className="truncate">{name}</span>
           </a>
         )
@@ -150,12 +152,12 @@ function TaskCard({ task, token, onToggle, onDelete, onEdit }: {
   }
 
   return (
-    <div className={`bg-white rounded-lg border border-gray-200 p-4 shadow-sm transition-all ${task.is_done && !editing ? 'opacity-50' : ''}`}>
+    <div className={`bg-[#111] border border-[#1E1E1E] rounded-xl p-4 transition-all ${task.is_done && !editing ? 'opacity-40' : ''}`}>
       <div className="flex items-start gap-3">
         <button
           onClick={() => onToggle(task.id, task.is_done)}
-          className={`mt-0.5 w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
-            task.is_done ? 'bg-green-500 border-green-500' : 'border-gray-300 hover:border-gray-400'
+          className={`mt-0.5 w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
+            task.is_done ? 'bg-[#6366F1] border-[#6366F1]' : 'border-[#333] hover:border-[#555]'
           }`}
         >
           {task.is_done && (
@@ -171,17 +173,17 @@ function TaskCard({ task, token, onToggle, onDelete, onEdit }: {
               <BlockEditor blocks={editBlocks} setBlocks={setEditBlocks} token={token} />
               <div className="flex gap-2">
                 <button onClick={save} disabled={saving || !hasContent(editBlocks)}
-                  className="text-xs bg-blue-600 text-white px-3 py-1.5 rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors">
+                  className="text-xs bg-[#6366F1] hover:bg-[#818CF8] text-white px-3 py-1.5 rounded-lg disabled:opacity-40 transition-colors">
                   {saving ? '...' : 'Зберегти'}
                 </button>
                 <button onClick={cancel}
-                  className="text-xs text-gray-500 px-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors">
+                  className="text-xs text-[#555] hover:text-white px-3 py-1.5 rounded-lg hover:bg-[#1A1A1A] transition-colors">
                   Скасувати
                 </button>
               </div>
             </div>
           ) : (
-            <div onClick={startEdit} className={`cursor-pointer hover:opacity-75 transition-opacity ${task.is_done ? 'line-through text-gray-400' : ''}`}>
+            <div onClick={startEdit} className={`cursor-pointer hover:opacity-60 transition-opacity ${task.is_done ? 'line-through text-[#444]' : ''}`}>
               <BlocksDisplay content={task.content} />
             </div>
           )}
@@ -189,7 +191,7 @@ function TaskCard({ task, token, onToggle, onDelete, onEdit }: {
 
         {!editing && (
           <button onClick={() => onDelete(task.id)}
-            className="text-gray-300 hover:text-red-400 transition-colors flex-shrink-0">
+            className="text-[#2A2A2A] hover:text-[#EF4444] transition-colors flex-shrink-0">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -291,10 +293,11 @@ export default function ClientPage({ token, client, allowedEmails, initialTasks 
 
   return (
     <EmailGate token={token} allowedEmails={allowedEmails}>
-    <div className="max-w-2xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-gray-800 mb-6">{client.name}</h1>
+    <div className="max-w-2xl mx-auto px-5 py-10">
+      <h1 className="text-lg font-semibold text-white tracking-tight mb-8">{client.name}</h1>
 
-      <div className="bg-white rounded-xl border border-gray-200 p-5 mb-8 shadow-sm">
+      {/* New task form */}
+      <div className="bg-[#111] border border-[#1E1E1E] rounded-2xl p-5 mb-8">
         <form onSubmit={handleSave} className="space-y-3">
           <BlockEditor
             blocks={blocks}
@@ -307,12 +310,12 @@ export default function ClientPage({ token, client, allowedEmails, initialTasks 
             <div className="flex flex-wrap gap-2">
               {selectedFiles.map((file, i) => (
                 <div key={i} className="relative group">
-                  <div className="flex items-center gap-1 text-xs bg-gray-100 px-2 py-1.5 rounded-lg border border-gray-200 max-w-[150px]">
-                    <span>📎</span>
+                  <div className="flex items-center gap-1 text-xs bg-[#161616] border border-[#222] px-2 py-1.5 rounded-lg max-w-[150px] text-[#888]">
+                    <span className="opacity-60">⬡</span>
                     <span className="truncate">{file.name}</span>
                   </div>
                   <button type="button" onClick={() => setSelectedFiles(prev => prev.filter((_, j) => j !== i))}
-                    className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-red-500 text-white rounded-full text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-[#EF4444] text-white rounded-full text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                     ×
                   </button>
                 </div>
@@ -320,20 +323,20 @@ export default function ClientPage({ token, client, allowedEmails, initialTasks 
             </div>
           )}
 
-          {error && <p className="text-red-500 text-sm">{error}</p>}
+          {error && <p className="text-[#EF4444] text-sm">{error}</p>}
 
           <div className="flex items-center gap-2">
             <button type="button" onClick={() => fileInputRef.current?.click()}
               disabled={selectedFiles.length >= 5}
-              className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700 px-3 py-2 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors disabled:opacity-40">
+              className="flex items-center gap-1.5 text-xs text-[#555] hover:text-[#888] px-3 py-2 rounded-lg border border-[#1E1E1E] hover:border-[#2E2E2E] transition-colors disabled:opacity-30">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
               </svg>
               Файли {selectedFiles.length > 0 && `(${selectedFiles.length}/5)`}
             </button>
             <button type="submit" disabled={saving || !hasContent(blocks)}
-              className="ml-auto bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
-              {saving ? 'Зберігається...' : 'Зберегти'}
+              className="ml-auto bg-[#6366F1] hover:bg-[#818CF8] disabled:opacity-40 text-white px-5 py-2 rounded-xl text-sm font-medium transition-colors">
+              {saving ? 'Збереження...' : 'Зберегти'}
             </button>
           </div>
 
@@ -343,13 +346,14 @@ export default function ClientPage({ token, client, allowedEmails, initialTasks 
         </form>
       </div>
 
+      {/* Tasks list */}
       {sortedDates.length === 0 ? (
-        <div className="text-center py-12 text-gray-400 text-sm">Поки немає задач. Додайте першу!</div>
+        <div className="text-center py-16 text-[#444] text-sm">Поки немає задач. Додайте першу!</div>
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-8">
           {sortedDates.map(date => (
             <div key={date}>
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">
+              <p className="text-[10px] font-medium text-[#444] uppercase tracking-widest mb-3">
                 {formatDate(date)}
               </p>
               <div className="space-y-2">

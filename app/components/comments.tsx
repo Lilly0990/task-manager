@@ -13,7 +13,7 @@ interface Comment {
 function formatTime(dateStr: string): string {
   const d = new Date(dateStr)
   return d.toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' }) +
-    ' ' + d.toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' })
+    ' · ' + d.toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' })
 }
 
 export function CommentsSection({ taskId, token }: { taskId: string; token?: string }) {
@@ -53,40 +53,40 @@ export function CommentsSection({ taskId, token }: { taskId: string; token?: str
   }
 
   return (
-    <div className="mt-3 border-t border-gray-100 pt-2">
+    <div className="mt-3 pt-3 border-t border-[#1A1A1A]">
       <button
         onClick={toggle}
-        className="text-xs text-gray-400 hover:text-gray-600 transition-colors flex items-center gap-1"
+        className="text-xs text-[#444] hover:text-[#666] transition-colors flex items-center gap-1.5"
       >
         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
         </svg>
         {open
-          ? 'Сховати коментарі'
+          ? 'Сховати'
           : loaded && comments.length > 0
-            ? `Коментарі (${comments.length})`
+            ? `${comments.length} коментар${comments.length === 1 ? '' : 'і'}`
             : 'Коментарі'}
       </button>
 
       {open && (
-        <div className="mt-2 space-y-2">
+        <div className="mt-3 space-y-3">
           {!loaded ? (
-            <p className="text-xs text-gray-400">Завантаження...</p>
+            <p className="text-xs text-[#444]">Завантаження...</p>
           ) : comments.length === 0 ? (
-            <p className="text-xs text-gray-400">Коментарів немає</p>
+            <p className="text-xs text-[#444]">Поки немає коментарів</p>
           ) : (
             comments.map(c => (
-              <div key={c.id} className="flex gap-2 items-start">
-                <span className={`text-xs px-1.5 py-0.5 rounded font-medium flex-shrink-0 mt-0.5 ${
+              <div key={c.id} className="flex gap-2.5 items-start">
+                <span className={`text-[10px] px-1.5 py-0.5 rounded-md font-medium flex-shrink-0 mt-0.5 tracking-wide uppercase ${
                   c.author_type === 'admin'
-                    ? 'bg-blue-50 text-blue-700'
-                    : 'bg-gray-100 text-gray-600'
+                    ? 'bg-[#1A1A2E] text-[#818CF8]'
+                    : 'bg-[#161616] text-[#555]'
                 }`}>
                   {c.author_type === 'admin' ? 'Адмін' : 'Клієнт'}
                 </span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm text-gray-700 break-words">{c.content}</p>
-                  <p className="text-xs text-gray-400 mt-0.5">{formatTime(c.created_at)}</p>
+                  <p className="text-sm text-[#C5C5C5] break-words leading-relaxed">{c.content}</p>
+                  <p className="text-[10px] text-[#333] mt-1">{formatTime(c.created_at)}</p>
                 </div>
               </div>
             ))
@@ -98,14 +98,14 @@ export function CommentsSection({ taskId, token }: { taskId: string; token?: str
               value={text}
               onChange={e => setText(e.target.value)}
               placeholder="Написати коментар..."
-              className="flex-1 text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex-1 text-xs bg-[#0A0A0A] border border-[#1E1E1E] text-white placeholder-[#333] rounded-lg px-3 py-2 focus:outline-none focus:border-[#6366F1] transition-colors"
             />
             <button
               type="submit"
               disabled={saving || !text.trim()}
-              className="text-xs bg-blue-600 text-white px-3 py-1.5 rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
+              className="text-xs bg-[#6366F1] hover:bg-[#818CF8] disabled:opacity-40 text-white px-3 py-2 rounded-lg transition-colors font-medium"
             >
-              {saving ? '...' : 'Надіслати'}
+              {saving ? '...' : '→'}
             </button>
           </form>
         </div>

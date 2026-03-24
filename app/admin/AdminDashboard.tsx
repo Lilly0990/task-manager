@@ -68,7 +68,7 @@ export default function AdminDashboard() {
       body: JSON.stringify({ newPassword }),
     })
     if (res.ok) {
-      setPasswordMsg('Пароль змінено!')
+      setPasswordMsg('Пароль змінено')
       setNewPassword('')
       setShowPasswordForm(false)
       setTimeout(() => setPasswordMsg(''), 3000)
@@ -78,21 +78,21 @@ export default function AdminDashboard() {
   const baseUrl = typeof window !== 'undefined' ? window.location.origin : ''
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
+    <div className="max-w-2xl mx-auto px-5 py-10">
       {/* Header */}
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl font-bold text-gray-800">Клієнти</h1>
-        <div className="flex items-center gap-2">
-          {passwordMsg && <span className="text-green-600 text-sm">{passwordMsg}</span>}
+      <div className="flex items-center justify-between mb-10">
+        <h1 className="text-lg font-semibold text-white tracking-tight">Клієнти</h1>
+        <div className="flex items-center gap-1">
+          {passwordMsg && <span className="text-[#4ADE80] text-xs mr-2">{passwordMsg}</span>}
           <button
             onClick={() => setShowPasswordForm(!showPasswordForm)}
-            className="text-sm text-gray-500 hover:text-gray-700 px-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors"
+            className="text-xs text-[#555] hover:text-white px-3 py-1.5 rounded-lg hover:bg-[#161616] transition-colors"
           >
             Пароль
           </button>
           <button
             onClick={logout}
-            className="text-sm text-red-500 hover:text-red-700 px-3 py-1.5 rounded-lg hover:bg-red-50 transition-colors"
+            className="text-xs text-[#555] hover:text-[#EF4444] px-3 py-1.5 rounded-lg hover:bg-[#161616] transition-colors"
           >
             Вийти
           </button>
@@ -101,21 +101,21 @@ export default function AdminDashboard() {
 
       {/* Change password */}
       {showPasswordForm && (
-        <div className="bg-white rounded-xl border border-gray-200 p-5 mb-6 shadow-sm">
-          <h2 className="font-semibold text-gray-700 mb-3">Новий пароль</h2>
+        <div className="bg-[#111] border border-[#1E1E1E] rounded-2xl p-5 mb-4">
+          <p className="text-sm font-medium text-white mb-3">Новий пароль</p>
           <form onSubmit={changePassword} className="flex gap-2">
             <input
               type="password"
               value={newPassword}
               onChange={e => setNewPassword(e.target.value)}
               placeholder="Мінімум 4 символи"
-              className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex-1 bg-[#0A0A0A] border border-[#222] text-white placeholder-[#444] rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-[#6366F1] transition-colors"
               autoFocus
             />
             <button
               type="submit"
               disabled={!newPassword || newPassword.length < 4}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors"
+              className="bg-[#6366F1] hover:bg-[#818CF8] disabled:opacity-40 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors"
             >
               Зберегти
             </button>
@@ -125,21 +125,21 @@ export default function AdminDashboard() {
 
       {/* New client created */}
       {createdClient && (
-        <div className="bg-green-50 border border-green-200 rounded-xl p-5 mb-6">
-          <div className="flex items-start justify-between mb-2">
-            <p className="font-semibold text-green-800">Клієнта створено!</p>
-            <button onClick={() => setCreatedClient(null)} className="text-green-600 text-sm hover:underline">
-              Закрити
-            </button>
+        <div className="bg-[#0C150C] border border-[#1A301A] rounded-2xl p-5 mb-4">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <div className="w-1.5 h-1.5 rounded-full bg-[#4ADE80]" />
+              <p className="text-sm font-medium text-[#4ADE80]">Клієнта створено</p>
+            </div>
+            <button onClick={() => setCreatedClient(null)} className="text-[#444] hover:text-white text-lg leading-none transition-colors">×</button>
           </div>
-          <p className="text-sm text-green-700 mb-2">Посилання для клієнта:</p>
           <div className="flex items-center gap-2">
-            <code className="flex-1 bg-white border border-green-200 rounded px-3 py-1.5 text-sm text-green-800 break-all">
+            <code className="flex-1 bg-[#090909] border border-[#1E1E1E] rounded-xl px-3 py-2 text-xs text-[#666] break-all font-mono">
               {baseUrl}/{createdClient.token}
             </code>
             <button
               onClick={() => navigator.clipboard.writeText(`${baseUrl}/${createdClient.token}`)}
-              className="text-sm bg-green-600 text-white px-3 py-1.5 rounded-lg hover:bg-green-700 transition-colors flex-shrink-0"
+              className="text-xs bg-[#1A301A] border border-[#1E401E] text-[#4ADE80] px-3 py-2 rounded-xl hover:bg-[#1E401E] transition-colors flex-shrink-0 font-medium"
             >
               Копіювати
             </button>
@@ -148,20 +148,20 @@ export default function AdminDashboard() {
       )}
 
       {/* Create client form */}
-      <div className="bg-white rounded-xl border border-gray-200 p-5 mb-6 shadow-sm">
-        <h2 className="font-semibold text-gray-700 mb-4">Новий клієнт</h2>
+      <div className="bg-[#111] border border-[#1E1E1E] rounded-2xl p-5 mb-8">
+        <p className="text-sm font-medium text-white mb-3">Новий клієнт</p>
         <form onSubmit={createClient} className="flex gap-2">
           <input
             type="text"
             value={newName}
             onChange={e => setNewName(e.target.value)}
             placeholder="Ім'я або назва компанії"
-            className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-1 bg-[#0A0A0A] border border-[#222] text-white placeholder-[#444] rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-[#6366F1] transition-colors"
           />
           <button
             type="submit"
             disabled={creating || !newName.trim()}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors"
+            className="bg-[#6366F1] hover:bg-[#818CF8] disabled:opacity-40 text-white px-5 py-2 rounded-xl text-sm font-medium transition-colors"
           >
             {creating ? '...' : 'Створити'}
           </button>
@@ -170,13 +170,13 @@ export default function AdminDashboard() {
 
       {/* Clients list */}
       <div>
-        <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-3">
+        <p className="text-[10px] font-medium text-[#444] uppercase tracking-widest mb-4">
           Всі клієнти · {clients.length}
         </p>
         {loading ? (
-          <div className="text-center py-10 text-gray-400 text-sm">Завантаження...</div>
+          <div className="text-center py-16 text-[#444] text-sm">Завантаження...</div>
         ) : clients.length === 0 ? (
-          <div className="text-center py-10 text-gray-400 text-sm">Поки немає клієнтів</div>
+          <div className="text-center py-16 text-[#444] text-sm">Поки немає клієнтів</div>
         ) : (
           <div className="space-y-2">
             {clients.map(client => {
@@ -186,21 +186,17 @@ export default function AdminDashboard() {
                 <Link
                   key={client.id}
                   href={`/admin/${client.id}`}
-                  className="bg-white rounded-xl border border-gray-200 p-4 flex items-center justify-between hover:border-blue-300 hover:shadow-sm transition-all group"
+                  className="bg-[#111] border border-[#1E1E1E] rounded-2xl px-5 py-4 flex items-center justify-between hover:border-[#2E2E2E] hover:bg-[#141414] transition-all group"
                 >
                   <div>
-                    <p className="font-medium text-gray-800 group-hover:text-blue-600 transition-colors">
+                    <p className="text-sm font-medium text-[#E5E5E5] group-hover:text-white transition-colors">
                       {client.name}
                     </p>
-                    <p className="text-xs text-gray-400 mt-0.5">{done}/{total} виконано</p>
+                    <p className="text-xs text-[#444] mt-0.5">
+                      {total === 0 ? 'Немає задач' : `${done} з ${total} виконано`}
+                    </p>
                   </div>
-                  <svg
-                    className="w-4 h-4 text-gray-400 group-hover:text-blue-500 transition-colors"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
+                  <svg className="w-4 h-4 text-[#333] group-hover:text-[#6366F1] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                   </svg>
                 </Link>
