@@ -17,7 +17,7 @@ export default async function AdminClientPage({
 
   const { data: client } = await supabaseAdmin
     .from('clients')
-    .select('id, name, token')
+    .select('id, name, token, allowed_emails')
     .eq('id', clientId)
     .single()
 

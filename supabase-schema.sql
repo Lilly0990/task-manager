@@ -25,3 +25,8 @@ create table settings (
 
 -- Default admin password
 insert into settings (key, value) values ('admin_password', 'qwerty12');
+
+-- Migration: add email whitelist per client
+-- Run this in Supabase SQL Editor if table already exists:
+-- alter table clients add column allowed_emails text[] default '{}';
+alter table clients add column if not exists allowed_emails text[] default '{}';

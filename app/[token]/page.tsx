@@ -11,7 +11,7 @@ export default async function TokenPage({
 
   const { data: client } = await supabaseAdmin
     .from('clients')
-    .select('id, name')
+    .select('id, name, allowed_emails')
     .eq('token', token)
     .single()
 
@@ -24,5 +24,5 @@ export default async function TokenPage({
     .order('date', { ascending: false })
     .order('created_at', { ascending: false })
 
-  return <ClientPage token={token} client={client} initialTasks={tasks ?? []} />
+  return <ClientPage token={token} client={client} allowedEmails={client.allowed_emails ?? []} initialTasks={tasks ?? []} />
 }

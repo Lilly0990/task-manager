@@ -21,11 +21,89 @@ interface Client {
   id: string
   name: string
   token: string
+  allowed_emails: string[]
 }
 
 interface Props {
   client: Client
   initialTasks: Task[]
+}
+
+function EmailManager({ client }: { client: Client }) {
+  const [emails, setEmails] = useState<string[]>(client.allowed_emails ?? [])
+  const [newEmail, setNewEmail] = useState('')
+  const [saving, setSaving] = useState(false)
+  const [msg, setMsg] = useState('')
+
+  async function save(updated: string[]) {
+    setSaving(true)
+    const res = await fetch(`/api/clients/${client.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ allowed_emails: updated }),
+    })
+    setSaving(false)
+    if (res.ok) {
+      setMsg('Збережено')
+      setTimeout(() => setMsg(''), 2000)
+    }
+  }
+
+  async function addEmail(e: React.FormEvent) {
+    e.preventDefault()
+    const email = newEmail.trim().toLowerCase()
+    if (!email || !email.includes('@') || emails.includes(email)) return
+    const updated = [...emails, email]
+    setEmails(updated)
+    setNewEmail('')
+    await save(updated)
+  }
+
+  async function removeEmail(email: string) {
+    const updated = emails.filter(e => e !== email)
+    setEmails(updated)
+    await save(updated)
+  }
+
+  return (
+    <div className="bg-white rounded-xl border border-gray-200 p-5 mb-6 shadow-sm">
+      <div className="flex items-center justify-between mb-3">
+        <h2 className="font-semibold text-gray-700 text-sm">Доступ по email</h2>
+        {saving && <span className="text-xs text-gray-400">Збереження...</span>}
+        {msg && <span className="text-xs text-green-600">{msg}</span>}
+      </div>
+
+      {emails.length === 0 ? (
+        <p className="text-xs text-gray-400 mb-3">Доступ відкритий для всіх хто має посилання</p>
+      ) : (
+        <div className="flex flex-wrap gap-2 mb-3">
+          {emails.map(email => (
+            <div key={email} className="flex items-center gap-1.5 bg-blue-50 border border-blue-200 rounded-lg px-2.5 py-1.5 text-xs text-blue-800">
+              <span>{email}</span>
+              <button onClick={() => removeEmail(email)}
+                className="text-blue-400 hover:text-red-500 transition-colors leading-none">
+                ×
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <form onSubmit={addEmail} className="flex gap-2">
+        <input
+          type="email"
+          value={newEmail}
+          onChange={e => setNewEmail(e.target.value)}
+          placeholder="Додати email..."
+          className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button type="submit" disabled={!newEmail.trim()}
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors">
+          Додати
+        </button>
+      </form>
+    </div>
+  )
 }
 
 function formatDate(dateStr: string): string {
@@ -203,9 +281,11 @@ export default function ClientTasks({ client, initialTasks }: Props) {
         <span className="text-sm text-gray-400">{done}/{total}</span>
       </div>
 
-      <button onClick={copyLink} className="ml-8 text-sm text-blue-500 hover:text-blue-700 mb-8 block transition-colors">
+      <button onClick={copyLink} className="ml-8 text-sm text-blue-500 hover:text-blue-700 mb-6 block transition-colors">
         {copied ? '✓ Скопійовано!' : 'Копіювати посилання клієнта'}
       </button>
+
+      <EmailManager client={client} />
 
       {sortedDates.length === 0 ? (
         <div className="text-center py-16 text-gray-400 text-sm">У цього клієнта поки немає задач</div>

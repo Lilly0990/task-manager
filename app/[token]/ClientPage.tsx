@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import {
   Block, ImageBlock, SavedBlock,
   uid, parseBlocks, blocksToContent, hasContent,
@@ -19,7 +19,68 @@ interface Task {
 interface Props {
   token: string
   client: { id: string; name: string }
+  allowedEmails: string[]
   initialTasks: Task[]
+}
+
+function EmailGate({ token, allowedEmails, children }: {
+  token: string
+  allowedEmails: string[]
+  children: React.ReactNode
+}) {
+  const storageKey = `email_auth_${token}`
+  const [authed, setAuthed] = useState(false)
+  const [input, setInput] = useState('')
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    const saved = localStorage.getItem(storageKey) ?? ''
+    if (allowedEmails.length === 0 || allowedEmails.map(e => e.toLowerCase()).includes(saved.toLowerCase())) {
+      setAuthed(true)
+    }
+  }, [allowedEmails, storageKey])
+
+  if (allowedEmails.length === 0 || authed) return <>{children}</>
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    const normalized = input.trim().toLowerCase()
+    if (allowedEmails.map(e => e.toLowerCase()).includes(normalized)) {
+      localStorage.setItem(storageKey, input.trim())
+      setAuthed(true)
+    } else {
+      setError('Цей email не має доступу до цієї сторінки')
+    }
+  }
+
+  return (
+    <div className="min-h-screen flex items-center justify-center px-4 bg-gray-50">
+      <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm w-full max-w-sm text-center">
+        <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg className="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+        </div>
+        <h1 className="text-lg font-bold text-gray-800 mb-1">Доступ обмежено</h1>
+        <p className="text-sm text-gray-500 mb-6">Введіть ваш email щоб увійти</p>
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <input
+            type="email"
+            value={input}
+            onChange={e => { setInput(e.target.value); setError('') }}
+            placeholder="your@email.com"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            autoFocus
+          />
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+          <button type="submit" disabled={!input.trim()}
+            className="w-full bg-blue-600 text-white py-2.5 rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors">
+            Увійти
+          </button>
+        </form>
+      </div>
+    </div>
+  )
 }
 
 function formatDate(dateStr: string): string {
@@ -139,7 +200,7 @@ function TaskCard({ task, token, onToggle, onDelete, onEdit }: {
   )
 }
 
-export default function ClientPage({ token, client, initialTasks }: Props) {
+export default function ClientPage({ token, client, allowedEmails, initialTasks }: Props) {
   const [tasks, setTasks] = useState<Task[]>(initialTasks)
   const [blocks, setBlocks] = useState<Block[]>([{ id: uid(), type: 'text', value: '' }])
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
@@ -227,6 +288,7 @@ export default function ClientPage({ token, client, initialTasks }: Props) {
   }
 
   return (
+    <EmailGate token={token} allowedEmails={allowedEmails}>
     <div className="max-w-2xl mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold text-gray-800 mb-6">{client.name}</h1>
 
@@ -299,5 +361,6 @@ export default function ClientPage({ token, client, initialTasks }: Props) {
         </div>
       )}
     </div>
+    </EmailGate>
   )
 }
