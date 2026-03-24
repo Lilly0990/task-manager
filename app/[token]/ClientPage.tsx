@@ -6,6 +6,7 @@ import {
   uid, parseBlocks, blocksToContent, hasContent,
   BlockEditor, BlocksDisplay,
 } from '@/app/components/blocks'
+import { CommentsSection } from '@/app/components/comments'
 
 interface Task {
   id: string
@@ -196,6 +197,7 @@ function TaskCard({ task, token, onToggle, onDelete, onEdit }: {
         )}
       </div>
       <FilesDisplay files={task.files} />
+      <CommentsSection taskId={task.id} token={token} />
     </div>
   )
 }

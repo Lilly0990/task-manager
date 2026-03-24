@@ -30,3 +30,12 @@ insert into settings (key, value) values ('admin_password', 'qwerty12');
 -- Run this in Supabase SQL Editor if table already exists:
 -- alter table clients add column allowed_emails text[] default '{}';
 alter table clients add column if not exists allowed_emails text[] default '{}';
+
+-- Comments table
+create table if not exists comments (
+  id uuid primary key default gen_random_uuid(),
+  task_id uuid references tasks(id) on delete cascade,
+  content text not null,
+  author_type text not null check (author_type in ('admin', 'client')),
+  created_at timestamptz default now()
+);
