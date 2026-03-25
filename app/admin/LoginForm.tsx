@@ -29,12 +29,12 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-[#090909]">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-[#F7F8FA]">
       <div className="w-full max-w-sm">
         <div className="mb-8">
           <div className="w-8 h-8 rounded-lg bg-[#6366F1] mb-6" />
-          <h1 className="text-2xl font-semibold text-white tracking-tight">Вхід</h1>
-          <p className="text-[#555] text-sm mt-1.5">Адмін панель</p>
+          <h1 className="text-2xl font-semibold text-[#111827] tracking-tight">Вхід</h1>
+          <p className="text-[#6B7280] text-sm mt-1.5">Адмін панель</p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-3">
           <input
@@ -42,7 +42,7 @@ export default function LoginForm() {
             value={password}
             onChange={e => setPassword(e.target.value)}
             placeholder="Пароль"
-            className="w-full bg-[#111] border border-[#222] text-white placeholder-[#444] rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#6366F1] transition-colors"
+            className="w-full bg-white border border-[#E5E7EB] text-[#111827] placeholder-[#9CA3AF] rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#6366F1] transition-colors"
             autoFocus
           />
           {error && <p className="text-[#EF4444] text-sm">{error}</p>}

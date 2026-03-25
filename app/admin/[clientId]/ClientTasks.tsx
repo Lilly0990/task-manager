@@ -67,21 +67,21 @@ function EmailManager({ client }: { client: Client }) {
   }
 
   return (
-    <div className="bg-[#111] border border-[#1E1E1E] rounded-2xl p-5 mb-5">
+    <div className="bg-white border border-[#E5E7EB] rounded-2xl p-5 mb-5">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-sm font-medium text-white">Доступ по email</h2>
+        <h2 className="text-sm font-medium text-[#111827]">Доступ по email</h2>
         <div className="flex items-center gap-2">
-          {saving && <span className="text-xs text-[#555]">Збереження...</span>}
-          {msg && <span className="text-xs text-[#4ADE80]">{msg}</span>}
+          {saving && <span className="text-xs text-[#9CA3AF]">Збереження...</span>}
+          {msg && <span className="text-xs text-[#16A34A]">{msg}</span>}
         </div>
       </div>
 
       {emails.length === 0 ? (
-        <p className="text-xs text-[#444] mb-4">Доступ відкритий для всіх хто має посилання</p>
+        <p className="text-xs text-[#9CA3AF] mb-4">Доступ відкритий для всіх хто має посилання</p>
       ) : (
         <div className="flex flex-wrap gap-2 mb-4">
           {emails.map(email => (
-            <div key={email} className="flex items-center gap-1.5 bg-[#1A1A2E] border border-[#2A2A4A] rounded-lg px-2.5 py-1.5 text-xs text-[#A5B4FC]">
+            <div key={email} className="flex items-center gap-1.5 bg-[#EEF2FF] border border-[#C7D2FE] rounded-lg px-2.5 py-1.5 text-xs text-[#6366F1]">
               <span>{email}</span>
               <button onClick={() => removeEmail(email)} className="text-[#6366F1] hover:text-[#EF4444] transition-colors leading-none">×</button>
             </div>
@@ -95,7 +95,7 @@ function EmailManager({ client }: { client: Client }) {
           value={newEmail}
           onChange={e => setNewEmail(e.target.value)}
           placeholder="Додати email..."
-          className="flex-1 bg-[#0A0A0A] border border-[#222] text-white placeholder-[#444] rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-[#6366F1] transition-colors"
+          className="flex-1 bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] placeholder-[#9CA3AF] rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-[#6366F1] transition-colors"
         />
         <button type="submit" disabled={!newEmail.trim()}
           className="bg-[#6366F1] hover:bg-[#818CF8] disabled:opacity-40 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors">
@@ -126,7 +126,7 @@ function FilesDisplay({ files }: { files: string[] }) {
         const name = decodeURIComponent(url.split('/').pop()?.split('?')[0] ?? 'file')
         return (
           <a key={i} href={url} target="_blank" rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-xs text-[#888] bg-[#161616] hover:bg-[#1E1E1E] px-2.5 py-1.5 rounded-lg border border-[#222] hover:border-[#333] transition-colors max-w-xs">
+            className="flex items-center gap-1.5 text-xs text-[#6B7280] bg-[#F3F4F6] hover:bg-[#E5E7EB] px-2.5 py-1.5 rounded-lg border border-[#E5E7EB] hover:border-[#D1D5DB] transition-colors max-w-xs">
             <span className="opacity-60">⬡</span>
             <span className="truncate">{name}</span>
           </a>
@@ -171,12 +171,12 @@ function AdminTaskCard({ task, onToggle, onDelete, onEdit }: {
   }
 
   return (
-    <div className={`bg-[#111] border border-[#1E1E1E] rounded-xl p-4 transition-all ${task.is_done && !editing ? 'opacity-40' : ''}`}>
+    <div className={`bg-white border border-[#E5E7EB] rounded-xl p-4 transition-all ${task.is_done && !editing ? 'opacity-40' : ''}`}>
       <div className="flex items-start gap-3">
         <button
           onClick={() => onToggle(task.id, task.is_done)}
           className={`mt-0.5 w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
-            task.is_done ? 'bg-[#6366F1] border-[#6366F1]' : 'border-[#333] hover:border-[#555]'
+            task.is_done ? 'bg-[#6366F1] border-[#6366F1]' : 'border-[#D1D5DB] hover:border-[#6B7280]'
           }`}
         >
           {task.is_done && (
@@ -196,13 +196,13 @@ function AdminTaskCard({ task, onToggle, onDelete, onEdit }: {
                   {saving ? '...' : 'Зберегти'}
                 </button>
                 <button onClick={cancel}
-                  className="text-xs text-[#555] hover:text-white px-3 py-1.5 rounded-lg hover:bg-[#1A1A1A] transition-colors">
+                  className="text-xs text-[#6B7280] hover:text-[#111827] px-3 py-1.5 rounded-lg hover:bg-[#F3F4F6] transition-colors">
                   Скасувати
                 </button>
               </div>
             </div>
           ) : (
-            <div onClick={startEdit} className={`cursor-pointer hover:opacity-60 transition-opacity ${task.is_done ? 'line-through text-[#444]' : ''}`}>
+            <div onClick={startEdit} className={`cursor-pointer hover:opacity-60 transition-opacity ${task.is_done ? 'line-through text-[#9CA3AF]' : ''}`}>
               <BlocksDisplay content={task.content} />
             </div>
           )}
@@ -210,7 +210,7 @@ function AdminTaskCard({ task, onToggle, onDelete, onEdit }: {
 
         {!editing && (
           <button onClick={() => onDelete(task.id)}
-            className="text-[#2A2A2A] hover:text-[#EF4444] transition-colors flex-shrink-0">
+            className="text-[#D1D5DB] hover:text-[#EF4444] transition-colors flex-shrink-0">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -273,28 +273,28 @@ export default function ClientTasks({ client, initialTasks }: Props) {
   return (
     <div className="max-w-2xl mx-auto px-5 py-10">
       <div className="flex items-center gap-3 mb-1">
-        <Link href="/admin" className="text-[#444] hover:text-white transition-colors">
+        <Link href="/admin" className="text-[#9CA3AF] hover:text-[#111827] transition-colors">
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
         </Link>
-        <h1 className="text-lg font-semibold text-white tracking-tight">{client.name}</h1>
-        <span className="text-xs text-[#444] bg-[#161616] border border-[#1E1E1E] px-2 py-0.5 rounded-full">{done}/{total}</span>
+        <h1 className="text-lg font-semibold text-[#111827] tracking-tight">{client.name}</h1>
+        <span className="text-xs text-[#9CA3AF] bg-[#F3F4F6] border border-[#E5E7EB] px-2 py-0.5 rounded-full">{done}/{total}</span>
       </div>
 
-      <button onClick={copyLink} className="ml-8 text-xs text-[#555] hover:text-[#A5B4FC] mb-8 block transition-colors">
+      <button onClick={copyLink} className="ml-8 text-xs text-[#9CA3AF] hover:text-[#6366F1] mb-8 block transition-colors">
         {copied ? '✓ Скопійовано' : 'Копіювати посилання клієнта'}
       </button>
 
       <EmailManager client={client} />
 
       {sortedDates.length === 0 ? (
-        <div className="text-center py-16 text-[#444] text-sm">У цього клієнта поки немає задач</div>
+        <div className="text-center py-16 text-[#9CA3AF] text-sm">У цього клієнта поки немає задач</div>
       ) : (
         <div className="space-y-8">
           {sortedDates.map(date => (
             <div key={date}>
-              <p className="text-[10px] font-medium text-[#444] uppercase tracking-widest mb-3">
+              <p className="text-[10px] font-medium text-[#9CA3AF] uppercase tracking-widest mb-3">
                 {formatDate(date)}
               </p>
               <div className="space-y-2">

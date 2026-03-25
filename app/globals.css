@@ -15,11 +15,11 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2a2a2a;
+  background: #D1D5DB;
   border-radius: 99px;
 }
 
 ::selection {
-  background: rgba(99, 102, 241, 0.2);
-  color: #fff;
+  background: rgba(99, 102, 241, 0.15);
+  color: #111827;
 }

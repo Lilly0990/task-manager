@@ -53,10 +53,10 @@ export function CommentsSection({ taskId, token }: { taskId: string; token?: str
   }
 
   return (
-    <div className="mt-3 pt-3 border-t border-[#1A1A1A]">
+    <div className="mt-3 pt-3 border-t border-[#F3F4F6]">
       <button
         onClick={toggle}
-        className="text-xs text-[#444] hover:text-[#666] transition-colors flex items-center gap-1.5"
+        className="text-xs text-[#9CA3AF] hover:text-[#6B7280] transition-colors flex items-center gap-1.5"
       >
         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -71,22 +71,22 @@ export function CommentsSection({ taskId, token }: { taskId: string; token?: str
       {open && (
         <div className="mt-3 space-y-3">
           {!loaded ? (
-            <p className="text-xs text-[#444]">Завантаження...</p>
+            <p className="text-xs text-[#9CA3AF]">Завантаження...</p>
           ) : comments.length === 0 ? (
-            <p className="text-xs text-[#444]">Поки немає коментарів</p>
+            <p className="text-xs text-[#9CA3AF]">Поки немає коментарів</p>
           ) : (
             comments.map(c => (
               <div key={c.id} className="flex gap-2.5 items-start">
                 <span className={`text-[10px] px-1.5 py-0.5 rounded-md font-medium flex-shrink-0 mt-0.5 tracking-wide uppercase ${
                   c.author_type === 'admin'
-                    ? 'bg-[#1A1A2E] text-[#818CF8]'
-                    : 'bg-[#161616] text-[#555]'
+                    ? 'bg-[#EEF2FF] text-[#6366F1]'
+                    : 'bg-[#F3F4F6] text-[#6B7280]'
                 }`}>
                   {c.author_type === 'admin' ? 'Адмін' : 'Клієнт'}
                 </span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm text-[#C5C5C5] break-words leading-relaxed">{c.content}</p>
-                  <p className="text-[10px] text-[#333] mt-1">{formatTime(c.created_at)}</p>
+                  <p className="text-sm text-[#374151] break-words leading-relaxed">{c.content}</p>
+                  <p className="text-[10px] text-[#9CA3AF] mt-1">{formatTime(c.created_at)}</p>
                 </div>
               </div>
             ))
@@ -98,7 +98,7 @@ export function CommentsSection({ taskId, token }: { taskId: string; token?: str
               value={text}
               onChange={e => setText(e.target.value)}
               placeholder="Написати коментар..."
-              className="flex-1 text-xs bg-[#0A0A0A] border border-[#1E1E1E] text-white placeholder-[#333] rounded-lg px-3 py-2 focus:outline-none focus:border-[#6366F1] transition-colors"
+              className="flex-1 text-xs bg-[#F9FAFB] border border-[#E5E7EB] text-[#111827] placeholder-[#9CA3AF] rounded-lg px-3 py-2 focus:outline-none focus:border-[#6366F1] transition-colors"
             />
             <button
               type="submit"

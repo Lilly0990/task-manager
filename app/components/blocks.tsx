@@ -42,7 +42,7 @@ export function BlocksDisplay({ content, className }: { content: string; classNa
         if (block.type === 'image') {
           return (
             <a key={i} href={block.url} target="_blank" rel="noopener noreferrer" className="block my-1">
-              <img src={block.url} alt="" className="max-w-full max-h-64 rounded-lg border border-[#222]" />
+              <img src={block.url} alt="" className="max-w-full max-h-64 rounded-lg border border-[#E5E7EB]" />
             </a>
           )
         }
@@ -130,18 +130,18 @@ export function BlockEditor({
   const firstTextId = blocks.find(b => b.type === 'text')?.id
 
   return (
-    <div className="w-full bg-[#0A0A0A] border border-[#222] rounded-xl px-3 py-2.5 focus-within:border-[#6366F1] transition-colors">
+    <div className="w-full bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl px-3 py-2.5 focus-within:border-[#6366F1] transition-colors">
       {blocks.map(block => {
         if (block.type === 'image') {
           const img = block as ImageBlock
           return (
             <div key={block.id} className="relative group my-2">
               {img.uploading ? (
-                <div className="h-16 w-32 bg-[#161616] rounded-lg animate-pulse flex items-center justify-center text-xs text-[#444]">
+                <div className="h-16 w-32 bg-[#E5E7EB] rounded-lg animate-pulse flex items-center justify-center text-xs text-[#9CA3AF]">
                   Завантаження...
                 </div>
               ) : (
-                <img src={img.url} alt="" className="max-w-full max-h-64 rounded-lg border border-[#222] block" />
+                <img src={img.url} alt="" className="max-w-full max-h-64 rounded-lg border border-[#E5E7EB] block" />
               )}
               <button
                 type="button"
@@ -164,7 +164,7 @@ export function BlockEditor({
             onPaste={e => handlePaste(e, block.id)}
             placeholder={block.id === firstTextId ? (placeholder ?? '') : ''}
             rows={Math.max(1, tb.value.split('\n').length)}
-            className="w-full outline-none resize-none text-sm text-[#E5E5E5] placeholder-[#333] bg-transparent block"
+            className="w-full outline-none resize-none text-sm text-[#1F2937] placeholder-[#9CA3AF] bg-transparent block"
           />
         )
       })}

@@ -55,16 +55,16 @@ function EmailGate({ token, allowedEmails, children }: {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-[#090909]">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-[#F7F8FA]">
       <div className="w-full max-w-sm">
         <div className="mb-8">
-          <div className="w-8 h-8 rounded-lg bg-[#1A1A2E] border border-[#2A2A4A] flex items-center justify-center mb-6">
+          <div className="w-8 h-8 rounded-lg bg-[#EEF2FF] border border-[#C7D2FE] flex items-center justify-center mb-6">
             <svg className="w-4 h-4 text-[#6366F1]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
           </div>
-          <h1 className="text-2xl font-semibold text-white tracking-tight">Доступ обмежено</h1>
-          <p className="text-[#555] text-sm mt-1.5">Введіть ваш email щоб увійти</p>
+          <h1 className="text-2xl font-semibold text-[#111827] tracking-tight">Доступ обмежено</h1>
+          <p className="text-[#6B7280] text-sm mt-1.5">Введіть ваш email щоб увійти</p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-3">
           <input
@@ -72,7 +72,7 @@ function EmailGate({ token, allowedEmails, children }: {
             value={input}
             onChange={e => { setInput(e.target.value); setError('') }}
             placeholder="your@email.com"
-            className="w-full bg-[#111] border border-[#222] text-white placeholder-[#444] rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#6366F1] transition-colors"
+            className="w-full bg-white border border-[#E5E7EB] text-[#111827] placeholder-[#9CA3AF] rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#6366F1] transition-colors"
             autoFocus
           />
           {error && <p className="text-[#EF4444] text-sm">{error}</p>}
@@ -106,7 +106,7 @@ function FilesDisplay({ files }: { files: string[] }) {
         const name = decodeURIComponent(url.split('/').pop()?.split('?')[0] ?? 'file')
         return (
           <a key={i} href={url} target="_blank" rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-xs text-[#888] bg-[#161616] hover:bg-[#1E1E1E] px-2.5 py-1.5 rounded-lg border border-[#222] hover:border-[#333] transition-colors max-w-xs">
+            className="flex items-center gap-1.5 text-xs text-[#6B7280] bg-[#F3F4F6] hover:bg-[#E5E7EB] px-2.5 py-1.5 rounded-lg border border-[#E5E7EB] hover:border-[#D1D5DB] transition-colors max-w-xs">
             <span className="opacity-60">⬡</span>
             <span className="truncate">{name}</span>
           </a>
@@ -152,12 +152,12 @@ function TaskCard({ task, token, onToggle, onDelete, onEdit }: {
   }
 
   return (
-    <div className={`bg-[#111] border border-[#1E1E1E] rounded-xl p-4 transition-all ${task.is_done && !editing ? 'opacity-40' : ''}`}>
+    <div className={`bg-white border border-[#E5E7EB] rounded-xl p-4 transition-all ${task.is_done && !editing ? 'opacity-40' : ''}`}>
       <div className="flex items-start gap-3">
         <button
           onClick={() => onToggle(task.id, task.is_done)}
           className={`mt-0.5 w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
-            task.is_done ? 'bg-[#6366F1] border-[#6366F1]' : 'border-[#333] hover:border-[#555]'
+            task.is_done ? 'bg-[#6366F1] border-[#6366F1]' : 'border-[#D1D5DB] hover:border-[#6B7280]'
           }`}
         >
           {task.is_done && (
@@ -177,13 +177,13 @@ function TaskCard({ task, token, onToggle, onDelete, onEdit }: {
                   {saving ? '...' : 'Зберегти'}
                 </button>
                 <button onClick={cancel}
-                  className="text-xs text-[#555] hover:text-white px-3 py-1.5 rounded-lg hover:bg-[#1A1A1A] transition-colors">
+                  className="text-xs text-[#6B7280] hover:text-[#111827] px-3 py-1.5 rounded-lg hover:bg-[#F3F4F6] transition-colors">
                   Скасувати
                 </button>
               </div>
             </div>
           ) : (
-            <div onClick={startEdit} className={`cursor-pointer hover:opacity-60 transition-opacity ${task.is_done ? 'line-through text-[#444]' : ''}`}>
+            <div onClick={startEdit} className={`cursor-pointer hover:opacity-60 transition-opacity ${task.is_done ? 'line-through text-[#9CA3AF]' : ''}`}>
               <BlocksDisplay content={task.content} />
             </div>
           )}
@@ -191,7 +191,7 @@ function TaskCard({ task, token, onToggle, onDelete, onEdit }: {
 
         {!editing && (
           <button onClick={() => onDelete(task.id)}
-            className="text-[#2A2A2A] hover:text-[#EF4444] transition-colors flex-shrink-0">
+            className="text-[#D1D5DB] hover:text-[#EF4444] transition-colors flex-shrink-0">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -294,10 +294,10 @@ export default function ClientPage({ token, client, allowedEmails, initialTasks 
   return (
     <EmailGate token={token} allowedEmails={allowedEmails}>
     <div className="max-w-2xl mx-auto px-5 py-10">
-      <h1 className="text-lg font-semibold text-white tracking-tight mb-8">{client.name}</h1>
+      <h1 className="text-lg font-semibold text-[#111827] tracking-tight mb-8">{client.name}</h1>
 
       {/* New task form */}
-      <div className="bg-[#111] border border-[#1E1E1E] rounded-2xl p-5 mb-8">
+      <div className="bg-white border border-[#E5E7EB] rounded-2xl p-5 mb-8">
         <form onSubmit={handleSave} className="space-y-3">
           <BlockEditor
             blocks={blocks}
@@ -310,7 +310,7 @@ export default function ClientPage({ token, client, allowedEmails, initialTasks 
             <div className="flex flex-wrap gap-2">
               {selectedFiles.map((file, i) => (
                 <div key={i} className="relative group">
-                  <div className="flex items-center gap-1 text-xs bg-[#161616] border border-[#222] px-2 py-1.5 rounded-lg max-w-[150px] text-[#888]">
+                  <div className="flex items-center gap-1 text-xs bg-[#F3F4F6] border border-[#E5E7EB] px-2 py-1.5 rounded-lg max-w-[150px] text-[#6B7280]">
                     <span className="opacity-60">⬡</span>
                     <span className="truncate">{file.name}</span>
                   </div>
@@ -328,7 +328,7 @@ export default function ClientPage({ token, client, allowedEmails, initialTasks 
           <div className="flex items-center gap-2">
             <button type="button" onClick={() => fileInputRef.current?.click()}
               disabled={selectedFiles.length >= 5}
-              className="flex items-center gap-1.5 text-xs text-[#555] hover:text-[#888] px-3 py-2 rounded-lg border border-[#1E1E1E] hover:border-[#2E2E2E] transition-colors disabled:opacity-30">
+              className="flex items-center gap-1.5 text-xs text-[#6B7280] hover:text-[#374151] px-3 py-2 rounded-lg border border-[#E5E7EB] hover:border-[#D1D5DB] transition-colors disabled:opacity-30">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
               </svg>
@@ -348,12 +348,12 @@ export default function ClientPage({ token, client, allowedEmails, initialTasks 
 
       {/* Tasks list */}
       {sortedDates.length === 0 ? (
-        <div className="text-center py-16 text-[#444] text-sm">Поки немає задач. Додайте першу!</div>
+        <div className="text-center py-16 text-[#9CA3AF] text-sm">Поки немає задач. Додайте першу!</div>
       ) : (
         <div className="space-y-8">
           {sortedDates.map(date => (
             <div key={date}>
-              <p className="text-[10px] font-medium text-[#444] uppercase tracking-widest mb-3">
+              <p className="text-[10px] font-medium text-[#9CA3AF] uppercase tracking-widest mb-3">
                 {formatDate(date)}
               </p>
               <div className="space-y-2">
